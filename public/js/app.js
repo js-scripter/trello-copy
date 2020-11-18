@@ -3,6 +3,7 @@ var ViewModel = function () {
     self.users = ko.observableArray();
     self.error = ko.observable();
     self.detail = ko.observable();
+    self.loading = ko.observable(false);
     self.newUser = {
         name: ko.observable(),
         email: ko.observable(),
@@ -31,8 +32,10 @@ var ViewModel = function () {
     }
 
     self.getUserDetail = function (item) {
+        self.loading(true)
         ajaxHelper(usersUri + item.id, 'GET').done(function (data) {
             self.detail(data[0]);
+            self.loading(false)
             console.log('self.detail '+ JSON.stringify(self.detail()));
         });
     }

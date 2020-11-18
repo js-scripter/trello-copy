@@ -83,6 +83,9 @@
             <div class="card-header">
               <h2 >Detail</h2>
             </div>
+            <!-- ko if:loading() -->
+            <h4>Loading....</h4>
+            <!-- /ko -->
             <table class="table">
               <tr><td>id</td><td data-bind="text: detail().id"></td></tr>
               <tr><td>name</td><td data-bind="text: detail().name"></td></tr>
@@ -91,6 +94,7 @@
           </div>
         </div>
         <!-- /ko -->
+        
 
         
       </div>

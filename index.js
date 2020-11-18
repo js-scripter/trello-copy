@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({extended:true,}))
 app.get('/', (request, response) => {
   response.sendFile( __dirname +"/views/index.html" )
 })
-app.get('/users', (request,response)=>{
+app.get('/users', async (request,response)=>{
 	// response.status(200).json([{"id":77,"name":"appu","email":"appu@gmail.com"},{"id":76,"name":"anna","email":"anna@gmail.com"}])
 	try {
       const client = await pool.connect();

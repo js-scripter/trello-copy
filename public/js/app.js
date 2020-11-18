@@ -3,7 +3,8 @@ var ViewModel = function () {
     self.users = ko.observableArray();
     self.error = ko.observable();
     self.detail = ko.observable();
-    self.loading = ko.observable(false);
+    self.detailLoading = ko.observable(false);
+    self.usersLoading = ko.observable(false);
     self.newUser = {
         name: ko.observable(),
         email: ko.observable(),
@@ -25,21 +26,21 @@ var ViewModel = function () {
     }
 
     function getAllUsers() {
-        self.loading(true)
+        self.usersLoading(true)
         self.users(undefined)
         ajaxHelper(usersUri, 'GET').done(function (data) {
             console.log(data)
             self.users(data);
-            self.loading(false)
+            self.usersLoading(false)
         });
     }
 
     self.getUserDetail = function (item) {
-        self.loading(true)
+        self.detailLoading(true)
         self.detail(undefined)
         ajaxHelper(usersUri + item.id, 'GET').done(function (data) {
             self.detail(data[0]);
-            self.loading(false)
+            self.detailLoading(false)
             console.log('self.detail '+ JSON.stringify(self.detail()));
         });
     }

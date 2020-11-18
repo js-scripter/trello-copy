@@ -53,12 +53,11 @@
               <h2>Users</h2>
             </div>
             <div class="card-body scroll">
-              <!-- ko if:loading() -->
-              <img src="images/loading-2.gif" alt="loading" /> 
+              <!-- ko if:usersLoading() -->
+              <img src="images/loading-2.gif" alt="loading" width="50" height="50" /> 
               <!-- /ko -->
               <table class="table" data-bind="foreach: users">
                 <tr>
-                  <!-- <td><strong><span data-bind="text: name"></span></strong></td> -->
                   <td>
                     <a href="#" data-bind="click: $parent.getUserDetail"> 
                       <strong><span data-bind="text: name"></span></strong>     
@@ -86,8 +85,8 @@
             <div class="card-header">
               <h2 >Detail</h2>
             </div>
-            <!-- ko if:loading() -->
-            <img src="images/loading-2.gif" alt="loading" /> 
+            <!-- ko if:detailLoading() -->
+            <img src="images/loading-2.gif" alt="loading" width="50" height="50" /> 
             <!-- /ko -->
             <table class="table">
               <tr><td>id</td><td data-bind="text: detail().id"></td></tr>

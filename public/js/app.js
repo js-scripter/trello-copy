@@ -25,14 +25,18 @@ var ViewModel = function () {
     }
 
     function getAllUsers() {
+        self.loading(true)
+        self.users(undefined)
         ajaxHelper(usersUri, 'GET').done(function (data) {
             console.log(data)
             self.users(data);
+            self.loading(false)
         });
     }
 
     self.getUserDetail = function (item) {
         self.loading(true)
+        self.detail(undefined)
         ajaxHelper(usersUri + item.id, 'GET').done(function (data) {
             self.detail(data[0]);
             self.loading(false)

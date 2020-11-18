@@ -53,6 +53,9 @@
               <h2>Users</h2>
             </div>
             <div class="card-body scroll">
+              <!-- ko if:loading() -->
+              <img src="images/loading-2.gif" alt="loading" /> 
+              <!-- /ko -->
               <table class="table" data-bind="foreach: users">
                 <tr>
                   <!-- <td><strong><span data-bind="text: name"></span></strong></td> -->
@@ -84,7 +87,7 @@
               <h2 >Detail</h2>
             </div>
             <!-- ko if:loading() -->
-            <h4>Loading....</h4>
+            <img src="images/loading-2.gif" alt="loading" /> 
             <!-- /ko -->
             <table class="table">
               <tr><td>id</td><td data-bind="text: detail().id"></td></tr>

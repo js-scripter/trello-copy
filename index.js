@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 const bodyParser = require('body-parser')
-const pool = require('./db.js')
+const db = require('./queries.js')
 // const { Pool } = require('pg');
 // const pool = new Pool({
 //   connectionString: process.env.DATABASE_URL,
@@ -34,14 +34,20 @@ app.get('/', (request, response) => {
 //     }
 // })
 
-app.get('/users', async (request,response)=>{
-	pool.query('SELECT * FROM users ORDER BY id DESC', (error, results) => {
-	    if (error) {
-	      throw error
-	    }
-	    response.status(200).json(results.rows)
- 	})
-})
+// app.get('/users', async (request,response)=>{
+// 	pool.query('SELECT * FROM users ORDER BY id DESC', (error, results) => {
+// 	    if (error) {
+// 	      throw error
+// 	    }
+// 	    response.status(200).json(results.rows)
+//  	})
+// })
+
+app.get('/users', db.getUsers)
+app.get('/users/:id', db.getUserById)
+app.post('/users', db.createUser)
+app.put('/users/:id', db.updateUser)
+app.delete('/users/:id', db.deleteUser)
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 

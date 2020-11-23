@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const model = require('./users')
+const model = require('./userss')
 
 router.get('/users', model.getUsers)
 router.get('/users/:id', model.getUserById)

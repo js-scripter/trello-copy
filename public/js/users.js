@@ -10,7 +10,7 @@ var ViewModel = function () {
         email: ko.observable(),
     }
 
-    var usersUri = '/users/';
+    var usersUri = '/api/users/';
 
     function ajaxHelper(uri, method, data) {
         self.error(''); // Clear error message
@@ -21,7 +21,7 @@ var ViewModel = function () {
             contentType: 'application/json',
             data: data ? JSON.stringify(data) : null
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            self.error(errorThrown + JSON.stringify(jqXHR));
+            self.error(JSON.stringify(jqXHR));
         });
     }
 

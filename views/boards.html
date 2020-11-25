@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--  -->
+    <title>Trello</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet" > -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type='text/javascript' src='js/jquery-3.5.1.min.js'></script>
+    <script type='text/javascript' src='js/knockout-3.5.1.js'></script>
+    <script type='text/javascript' src='js/boards.js'></script>
+    <style>
+    .coll{
+      background: lightgrey;
+      border: 1px solid grey;
+      padding-top: 10px;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      padding-left: 10px;
+      height: 470px;
+      /* width: 50%; */
+    }
+    </style>
+    
+  </head>
+  <body>
+    <div class="container horizontal-scrollable">
+      <div class="page-header">
+        <strong><a href="/">home</a></strong>
+      </div>
+      <!-- ko if:error() -->
+     <!--  <div class="alert alert-danger" data-bind="visible: error">
+        <p data-bind="text: error"></p>
+      </div> -->
+      <!-- /ko -->      
+      <form class="form-horizontal" data-bind="submit: addBoard">
+          <div class="form-group" data-bind="with: newEntity">
+            <div class="row">
+              <div class="col-md-3">
+                <input type="text" placeholder="enter board name to create" class="form-control" id="inputName" data-bind="value:name"/>
+                <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+              </div>
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>                  
+      </form>
+      <div class="row ">
+          <!-- column 1 -->
+          <div class="col-md-2 coll">
+            <div class="card " >
+              <div class="card-header">
+                <h4>Boards</h4>
+              </div>
+              <div class="card-body scroll">
+                <!-- ko if:loading() -->
+                <h4>Loading....</h4>
+                <!-- /ko -->
+                <table class="table" data-bind="foreach: entity">
+                  <tr>
+                    <td>
+                      <a href="#" data-bind="click: $parent.getBoardDetail"> 
+                        <strong><span data-bind="text: name"></span></strong>     
+                      </a>
+                    </td>
+                    <td>
+                      <a href="#" data-bind="click: $parent.deleteBoard">      
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+</svg>
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>          
+          </div>
+          <!-- 2nd column -->        
+          <!-- ko if:detail() -->
+          <div class="col-md-2 coll">
+            <div class="card">
+              <div class="card-header">
+                <h4>Detail</h4>
+                <div data-bind="with: detail">
+                  <strong><span data-bind="text: name"></strong>
+                </div> 
+              </div>
+
+              <table class="table">             
+                <tr>
+                  <td colspan="3">
+                    <form class="form-horizontal" data-bind="submit: addUserToBoard">
+                          <span>Add User to Board</span>
+                          <div class="row">
+                            <div class="col-md-8">
+                              <select class="form-control" size=1 data-bind="
+                                  options: allUsers,
+                                  optionsText: 'name',
+                                  optionsValue: 'id',
+                                  value: selectedUser">
+                              </select>
+                              
+                            </div>
+                            <div class="col-md-3">
+                              <button type="submit" class="btn btn-primary">
+                                +
+                              </button>
+                            </div>
+                          </div>
+                    </form>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    <form class="form-horizontal" data-bind="submit: addListToBoard">
+                      <span>Add List to Board</span>
+                          <div class="row">
+                            <div class="col-md-8">
+                              <input type="text" placeholder="list name" class="form-control" id="inputName" data-bind="value:newListName"/>
+                            </div>
+                            <div class="col-md-3">
+                              <button type="submit" class="btn btn-primary">
+                                +
+                              </button>
+                            </div>
+                          </div>
+                    </form>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <!-- /ko -->
+          
+          <!-- 3rd column-->
+          <!-- ko if:boardUsers() -->
+          <div class="col-md-1 coll">
+            <div class="card">
+               <div class="card-header">
+                <h4> Users</h4>
+                <div data-bind="with: detail">
+                  <strong><span data-bind="text: name"></strong>                
+                </div>
+              </div>
+              <table class="table" data-bind="foreach: boardUsers">
+                  <tr>
+                    <td>
+                        <strong><span data-bind="text: name"></span></strong>     
+                    </td>
+                    <td>
+                      <a href="#" data-bind="click: $parent.deleteBoardUser">      
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+</svg>
+                      </a>
+                    </td>
+                  </tr>
+              </table>
+            </div>
+          </div>       
+          <!-- /ko -->   
+
+          <!-- 4th column-->
+          <!-- ko if:boardLists() -->
+          <div class="col-md-1 coll">
+            <div class="card">
+              <div class="card-header">
+                <h4> Lists</h4>
+                <div data-bind="with: detail">
+                  <strong><span data-bind="text: name"></strong>                
+                </div>              
+              </div>
+              <table class="table" data-bind="foreach: boardLists">
+                  <tr>
+                    <td>
+                        <a href="#" data-bind="click: $parent.getListDetail"> 
+                          <strong><span data-bind="text: name"></span></strong>     
+                        </a>
+                    </td>
+                    <td>
+                      <a href="#" data-bind="click: $parent.deleteBoardList">      
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+</svg>
+                      </a>
+                        
+                    </td>
+                  </tr>
+              </table>
+            </div>
+          </div>       
+          <!-- /ko -->
+          
+          <!-- 5th column-->
+          <!-- ko if:listDetails() -->
+          <div class="col-md-2 coll">
+            <div class="card">
+              <div class="card-header">
+                <h4>List Detail</h4>
+                <div data-bind="with: listDetails">
+                  <strong>List : <span data-bind="text: name"></strong>
+                </div> 
+              </div>
+              <table class="table">             
+                <tr>
+                  <td colspan="3">
+                    <form class="form-horizontal" data-bind="submit: addCardToList">
+                      <div class="form-group" data-bind="with: newCard">
+                        <span>Add card to list</span>
+                        <div class="row">
+                          <div class="col-md-8">
+                            <input type="text" placeholder="card name" class="form-control" id="inputName" data-bind="value:name"/>
+                            <br>
+                            <input type="text" placeholder="description" class="form-control" id="inputName" data-bind="value:description"/>
+                            <br>
+                            <button type="submit" class="btn btn-primary">+</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>        
+          <!-- /ko -->
+
+          <!-- 6th column-->
+          <!-- ko if:listCards() -->
+          <div class="col-md-1 coll">
+            <div class="card">
+              <div class="card-header">
+                <h4> Cards </h4>
+                <div data-bind="with: listDetails">
+                <strong><span data-bind="text: name"></strong> cards              
+                </div>              
+              </div>
+              <table class="table" data-bind="foreach: listCards">
+                  <tr>
+                    <td>
+                        <a href="#" data-bind="click: $parent.getCardDetail"> 
+                          <strong><span data-bind="text: name"></span></strong>     
+                        </a>
+                    </td>
+                    <td>
+                      <a href="#" data-bind="click: $parent.deleteListCard">      
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                      </svg>
+                      </a>
+                        
+                    </td>
+                  </tr>
+              </table>
+            </div>
+          </div>       
+          <!-- /ko -->
+
+           <!-- 7th column-->
+          <!-- ko if:cardDetails() -->
+          <div class="col-md-2 coll">
+            <div class="card">
+              <div class="card-header">
+                <h4>Card Detail</h4>
+                <div data-bind="with: cardDetails">
+                  <strong>name : <span data-bind="text: name"></strong>
+                  <br><strong>detail : <span data-bind="text: description"></strong>
+                  <br><strong>user : <span data-bind="text: user_id"></strong>
+                </div> 
+              </div>
+              <table class="table">             
+                <tr>
+                  <td colspan="3">
+                    <form class="form-horizontal" data-bind="submit: addUserToCard">
+                          <span>Add User to Card</span>
+                          <div class="row">
+                            <div class="col-md-8">
+                              <select class="form-control" size=1 data-bind="
+                                  options: boardUsers,
+                                  optionsText: 'name',
+                                  optionsValue: 'user_id',
+                                  value: selectedUser">
+                              </select>
+                              
+                            </div>
+                            <div class="col-md-3">
+                              <button type="submit" class="btn btn-primary">
+                                +
+                              </button>
+                            </div>
+                          </div>
+                    </form>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>        
+          <!-- /ko -->
+      </div> 
+  </div>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-# node-js-getting-started
+# my-trello
 
 A barebones Node.js app using [Express 4](http://expressjs.com/).
 

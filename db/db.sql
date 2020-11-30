@@ -31,5 +31,9 @@ CREATE TABLE cards (
   board_id integer,
   list_id integer
 );
-
+/*sample data*/
 INSERT INTO board (name) VALUES ('proj 1'), ('proj 2');
+/*cascade delete*/
+ALTER TABLE lists ADD FOREIGN KEY (board_id) REFERENCES board(ID) ON DELETE CASCADE;
+ALTER TABLE cards ADD FOREIGN KEY (list_id) REFERENCES lists(ID) ON DELETE CASCADE;
+

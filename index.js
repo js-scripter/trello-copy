@@ -18,6 +18,9 @@ app.get('/users', (request, response) => {
 app.get('/boards', (request, response) => {
   response.sendFile( __dirname +"/views/boards.html" )
 })
+app.get('/test', (request, response)=>{
+  response.sendFile(__dirname + "/views/test.html")
+})
 
 //routes for API
 const entity = ['users','boards','lists','cards'];

@@ -52,7 +52,7 @@ const deleteBoard = async (request, response) => {
   try{
     const results = await pool.query('DELETE FROM board WHERE id = $1', [id])
     //delete lists which belong to this board
-    const deleteChildLists = await pool.query('DELETE FROM lists WHERE board_id = $1', [id])
+    // const deleteChildLists = await pool.query('DELETE FROM lists WHERE board_id = $1', [id])
   	response.status(200).send(results)
   }catch(error){
   	response.status(500).send(error.message)
